@@ -1,0 +1,23 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: 2024-01-01 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sale_order_batch
+#: model:ir.model.fields,field_description:sale_order_batch.field_sale_order__shipping_country_id
+#: model_terms:ir.ui.view,arch_db:sale_order_batch.view_sale_order_tree_inherit_sale_order_batch
+msgid "Ship To Country"
+msgstr ""
+
+#. module: sale_order_batch
+#: model_terms:ir.ui.view,arch_db:sale_order_batch.view_sale_order_search_inherit
+msgid "Shipping Country"
+msgstr ""
