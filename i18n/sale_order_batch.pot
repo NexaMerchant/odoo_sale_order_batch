@@ -21,23 +21,3 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_order_batch.view_sale_order_search_inherit
 msgid "Shipping Country"
 msgstr ""
-
-#. module: sale_order_batch
-#: model:ir.model.fields,field_description:sale_order_batch.field_sale_order__delivery_number
-msgid "Delivery Number"
-msgstr ""
-
-#. module: sale_order_batch
-#: model:ir.model.fields,field_description:sale_order_batch.field_sale_order__delivery_date
-msgid "Delivery Date"
-msgstr ""
-
-#. module: sale_order_batch
-#: model:ir.model.fields,field_description:sale_order_batch.field_sale_order__delivery_status
-msgid "Delivery Status"
-msgstr ""
-
-#. module: sale_order_batch
-#: model:ir.model.fields,field_description:sale_order_batch.field_sale_order__delivery_method_id
-msgid "Choose Delivery"
-msgstr ""

@@ -12,12 +12,14 @@ class SaleOrderInherited(models.Model):
         store=True
     )
 
+    # Add a new field to store the delivery number
     delivery_number = fields.Char(
         string='Delivery Number',
         compute='_compute_delivery_number',
         store=True
     )
 
+    # Add a new field to store the delivery carrier
     @api.depends('picking_ids')
     def _compute_delivery_number(self):
         for order in self:
