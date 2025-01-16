@@ -63,12 +63,19 @@
       <field name="inherit_id" ref="sale.view_order_tree"/>
       <field name="arch" type="xml">
           <xpath expr="//field[@name='partner_id']" position="after"> 
+              <button name="action_choose_delivery" 
+                    string="Choose Delivery" 
+                    type="object"
+                    icon="fa-truck"
+                    class="btn-primary"
+                    groups="base.group_user"/>
               <field name="order_line" widget="many2many_tags" options="{'no_create': True}" avatar_field="product_id.image_900"/>
               <field name="shipping_country_id" 
                    widget="selection" 
                    options="{'no_create': True}"
                    filter_domain="[('shipping_country_id', 'ilike', self)]"
                    groups="base.group_user"/>
+              <field name="delivery_number" string="Delivery Number"/>
           </xpath> 
       </field>
   </record>
@@ -84,6 +91,16 @@
         </field>
     </field>
  </record>
+
+ <record id="action_batch_choose_delivery" model="ir.actions.server">
+      <field name="name">Batch Choose Delivery</field>
+      <field name="model_id" ref="sale.model_sale_order"/>
+      <field name="binding_model_id" ref="sale.model_sale_order"/>
+      <field name="state">code</field>
+      <field name="code">
+          action = env['sale.order'].browse(env.context.get('active_ids')).action_batch_choose_delivery()
+      </field>
+  </record>
 
   </data>
 </odoo>
