@@ -19,6 +19,8 @@ class SaleOrderInherited(models.Model):
         store=True
     )
 
+    payment_term_id = fields.Many2one('account.payment.term', string='Payment Term')
+
     # Add a new field to store the delivery carrier
     @api.depends('picking_ids')
     def _compute_delivery_number(self):
