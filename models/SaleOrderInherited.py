@@ -1,7 +1,7 @@
 from odoo import models, fields, api
 
 class SaleOrderInherited(models.Model):
-    _inherit = 'sale.order' 
+    _inherit = 'sale.order'
 
     custom_field = fields.Char(string='Custom Field')
 
@@ -20,6 +20,15 @@ class SaleOrderInherited(models.Model):
     )
 
     payment_term_id = fields.Many2one('account.payment.term', string='Payment Term')
+
+    state_selection = fields.Selection([
+        ('draft', '待处理'),
+        ('sent', '已发送'),
+        ('sale', '已确认'),
+        ('done', '已完成'),
+        ('cancel', '已取消'),
+    ], string='订单状态')
+
 
     # Add a new field to store the delivery carrier
     @api.depends('picking_ids')

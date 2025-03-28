@@ -1,5 +1,5 @@
 <odoo>
-  <data>
+    <data>
     <!-- explicit list view definition -->
 <!--
     <record model="ir.ui.view" id="sale_order_batch.list">
@@ -23,6 +23,51 @@
       <field name="view_mode">list,form</field>
     </record>
 -->
+
+  <!-- <record id="view_sale_order_tree_inherited" model="ir.ui.view">
+      <field name="name">sale.order.tree.view.inherited</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_quotation_tree"/>
+      <field name="arch" type="xml">
+          <xpath expr="//tree" position="attributes">
+              <attribute name="create">false</attribute>
+              <attribute name="import">false</attribute>
+          </xpath>
+      </field>
+  </record>
+
+  <record id="view_sale_order_form_inherited" model="ir.ui.view">
+      <field name="name">sale.order.form.view.inherited</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="arch" type="xml">
+          <xpath expr="//form" position="attributes">
+              <attribute name="create">false</attribute>
+          </xpath>
+      </field>
+  </record>
+
+  <record id="sale.action_orders" model="ir.actions.act_window">
+    <field name="name">Sales Orders</field>
+    <field name="res_model">sale.order</field>
+    <field name="view_mode">list,form</field>
+    <field name="context">{'default_order': 'date_order asc'}</field>
+  </record> -->
+
+  <!-- 移除看板视图 -->
+  <delete model="ir.ui.view" search="[('name', '=', 'sale.order.kanban'), ('model', '=', 'sale.order')]"/>
+
+  <!-- 移除日历视图 -->
+  <delete model="ir.ui.view" search="[('name', '=', 'sale.order.calendar'), ('model', '=', 'sale.order')]"/>
+
+  <!-- <record id="sale_order_list_upload_inherit" model="ir.ui.view">
+    <field name="name">sale.order.list.upload.inherit</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.sale_order_list_upload"/>
+    <field name="arch" type="xml">
+        <xpath expr="//div[contains(@class, 'o_list_buttons')]" position="replace"/>
+    </field>
+  </record> -->
 
     <!-- server action to the one above -->
 <!--
@@ -57,60 +102,108 @@
               action="sale_order_batch.action_server"/>
 -->
 
-  <record id="view_sale_order_tree_inherit_sale_order_batch" model="ir.ui.view">
-      <field name="name">sale.order.tree.inherit.sale.order.batch</field>
-      <field name="model">sale.order</field>
-      <field name="inherit_id" ref="sale.view_order_tree"/>
-      <field name="arch" type="xml">
+    <!-- search start -->
+    <!-- 创建一个新的视图记录，id 为 view_sale_order_search_inherit -->
+    <record id="view_sale_order_search_inherit" model="ir.ui.view">
+        <field name="name">sale.order.search.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+          <!-- 枚举订单状态，供 用户选择进行搜索 -->
+          <xpath expr="//group" position="inside">
+            <group expand="0" string="订单状态">
+                <filter name="filter_draft" string="待处理" domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_sent" string="已发送" domain="[('state', '=', 'sent')]"/>
+                <filter name="filter_sale" string="已确认" domain="[('state', '=', 'sale')]"/>
+                <filter name="filter_done" string="已完成" domain="[('state', '=', 'done')]"/>
+                <filter name="filter_cancel" string="已取消" domain="[('state', '=', 'cancel')]"/>
+            </group>
+          </xpath>
+
+          <!-- 在搜索视图中新增排序选项 -->
+          <xpath expr="//search" position="inside">
+              <sort string="按客户名称" name="partner_id"/>
+              <sort string="按订单金额" name="amount_total desc"/>
+              <sort string="按创建日期" name="create_date desc"/>
+          </xpath>
+
+        </field>
+    </record>
+    <!-- search end -->
+
+    <!-- 尝试禁用action.delete按钮 -->
+    <record id="view_order_tree_inherit" model="ir.ui.view">
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <!-- 1. 禁用树视图删除 -->
+            <tree position="attributes">
+                <attribute name="delete">false</attribute>
+            </tree>
+
+            <!-- 2. 移除动作菜单 -->
+            <xpath expr="//header/button[@name='action_delete']" position="replace"/>
+
+            <!-- 3. 禁用动作管理器 -->
+            <xpath expr="//header/button[@name='action_manager']" position="attributes">
+                <attribute name="context">{'hide_delete': True}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_sale_order_tree_inherit_sale_order_batch" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherit.sale.order.batch</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
 
           <!-- <xpath expr="//list" position="attributes">
             <attribute name="editable">bottom</attribute>
           </xpath> -->
 
-          <xpath expr="//field[@name='partner_id']" position="after"> 
-              <!-- <button name="action_choose_delivery" 
-                    string="Choose Delivery" 
-                    type="object"
-                    icon="fa-truck"
-                    class="btn-primary"
-                    groups="base.group_user">
-              </button> -->
+            <!-- 隐藏某一列 -->
+            <xpath expr="//field[@name='name']" position="replace"/>
+
+            <!-- 先清空原来的 state 字段值 -->
+            <!-- <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath> -->
+
+            <xpath expr="//field[@name='date_order']" position="before">
+              <field name="order_line" widget="many2many_tags" options="{'no_create': True}" avatar_field="product_id.image_1920" width="400px"/>
+
+              <!-- 重写订单状态 -->
+              <!-- <field name="state" widget="badge" string="Order Status"
+                  decoration-info="state == 'draft'"
+                  decoration-success="state == 'sale'"
+                  decoration-danger="state == 'cancel'"/> -->
+
               <field name="note" invisible="1" class="editable-note" />
               <field name="payment_term_id" />
-              <field name="order_line" widget="many2many_tags" options="{'no_create': True}" avatar_field="product_id.image_900"/>
-              <field name="shipping_country_id" 
-                   widget="selection" 
-                   options="{'no_create': True}"
-                   filter_domain="[('shipping_country_id', 'ilike', self)]"
-                   groups="base.group_user"/>
-              <field name="delivery_number" string="Delivery Number" invisible="1"/>
-          </xpath> 
-      </field>
-  </record>
+              <field name="shipping_country_id" widget="selection" options="{'no_create': True}" filter_domain="[('shipping_country_id', 'ilike', self)]" />
+              <field name="delivery_number" string="Delivery Number"/>
 
-  <record id="view_sale_order_search_inherit" model="ir.ui.view">
-    <field name="name">sale.order.search.inherit</field>
-    <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_sales_order_filter"/>
-    <field name="arch" type="xml">
-        <field name="partner_id" position="after">
-            <field name="shipping_country_id"/>
-            <filter name="groupby_country" context="{'group_by': 'shipping_country_id'}"/>
+            </xpath>
+
         </field>
-    </field>
- </record>
+    </record>
 
- <record id="action_batch_choose_delivery" model="ir.actions.server">
+    <!-- 批量给订单选择物流【触发自定义方法action_batch_choose_delivery()】 -->
+    <record id="action_batch_choose_delivery" model="ir.actions.server">
       <field name="name">Batch Choose Delivery</field>
+      <!-- 绑定模型 -->
       <field name="model_id" ref="sale.model_sale_order"/>
+      <!-- 绑定模型 当需要出现在右键菜单时需添加 -->
       <field name="binding_model_id" ref="sale.model_sale_order"/>
+      <!-- 执行方式 -->
       <field name="state">code</field>
+      <!-- 执行内容（根据state类型变化） -->
       <field name="code">
           action = env['sale.order'].browse(env.context.get('active_ids')).action_batch_choose_delivery()
       </field>
-  </record>
+    </record>
 
-  <record id="action_batch_lock_order" model="ir.actions.server">
+    <!-- 批量锁定订单 -->
+    <record id="action_batch_lock_order" model="ir.actions.server">
       <field name="name">Batch Lock Order</field>
       <field name="model_id" ref="sale.model_sale_order"/>
       <field name="binding_model_id" ref="sale.model_sale_order"/>
