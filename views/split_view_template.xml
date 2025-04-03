@@ -1,0 +1,38 @@
+<!-- xml -->
+<odoo>
+  <template id="sale_order_split_view" name="Sale Order Split View">
+        <!-- 左右分栏的布局 HTML 代码 -->
+        <div class="row">
+            <div class="col-md-3">
+                <!-- 筛选条件区域 -->
+                <div class="o_list_view">
+                    <div class="o_list_view_header">
+                        <h3>筛选条件</h3>
+                    </div>
+                    <div class="o_list_view_body">
+                        <!-- 这里可以添加筛选条件的内容 -->
+                        <p>筛选条件1</p>
+                        <p>筛选条件2</p>
+                        <p>筛选条件3</p>
+                    </div>
+
+                    <div class="o_list_view_footer">
+                        <button type="button" class="btn btn-primary">应用筛选</button>
+                        <button type="button" class="btn btn-secondary">重置筛选</button>
+
+                        <button type="button" class="btn btn-success">导出</button>
+                        <button type="button" class="btn btn-danger">删除</button>
+
+                        <button type="button" class="btn btn-info">打印</button>
+                        <button type="button" class="btn btn-warning">发送邮件</button>
+
+                        <button type="button" class="btn btn-dark">更多操作</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <!-- 树视图区域 -->
+            </div>
+        </div>
+    </template>
+</odoo>

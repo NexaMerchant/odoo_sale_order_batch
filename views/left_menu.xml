@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <!-- 左侧菜单过滤器示例 -->
+    <record id="sale_order_search_inherit_left_menu" model="ir.ui.view">
+      <field name="name">sale.order.search.inherit.left.menu</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+      <field name="arch" type="xml">
+        <xpath expr="//search" position="inside">
+          <group>
+            <filter name="draft_state" string="Draft Orders" domain="[('state', '=', 'draft')]"/>
+            <filter name="note_state" string="Has Note" domain="[('note', '!=', False)]"/>
+            <filter name="confirmed_state" string="Confirmed Orders" domain="[('state', '=', 'sale')]"/>
+          </group>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

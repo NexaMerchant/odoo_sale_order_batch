@@ -1,0 +1,9 @@
+<!-- xml -->
+<odoo>
+  <data>
+    <record id="action_sale_order_split_view" model="ir.actions.client">
+      <field name="name">销售订单左右布局</field>
+      <field name="tag">sale_order_split_view</field>
+    </record>
+  </data>
+</odoo>
