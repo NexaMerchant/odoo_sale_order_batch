@@ -1,7 +1,28 @@
 from odoo import models, fields, api
 
 class SaleOrderInherited(models.Model):
-    _inherit = 'sale.order' 
+    _inherit = 'sale.order'
+
+    order_line_images = fields.Html(string='产品图片', compute='_compute_order_line_images')
+
+    @api.depends('order_line')
+    def _compute_order_line_images(self):
+        for order in self:
+            images_html = ''
+            for line in order.order_line:
+                if line.product_id:
+                    product = line.product_id
+                    img_url = ''
+                    if product.image_128:
+                        img_url = '/web/image/product.product/%s/image_128' % product.id
+                    images_html += '<div style="display:inline-block;text-align:center;margin-right:2px;">'
+                    if img_url:
+                        images_html += '<img src="%s" style="height:60px;width:60px;border:1px solid #ccc;" />' % img_url
+                    images_html += '<div style="font-size:10px;">%s</div>' % product.name
+                    images_html += '<div style="font-size:10px;color:#888;">SKU: %s</div>' % (
+                                product.default_code or '')
+                    images_html += '</div>'
+            order.order_line_images = images_html
 
     custom_field = fields.Char(string='Custom Field')
 
@@ -36,7 +57,7 @@ class SaleOrderInherited(models.Model):
     def action_batch_choose_delivery(self):
         view_id = self.env.ref('delivery.choose_delivery_carrier_view_form').id
         return {
-            'name': 'Add a shipping method',
+            'name': '批量选择配送方式',
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
             'res_model': 'choose.delivery.carrier',
@@ -45,6 +66,7 @@ class SaleOrderInherited(models.Model):
             'target': 'new',
             'context': {
                 'default_order_ids': self.ids,
+                'active_ids': self.ids,
             }
         }
 

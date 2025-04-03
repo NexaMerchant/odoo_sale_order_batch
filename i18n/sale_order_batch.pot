@@ -21,3 +21,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_order_batch.view_sale_order_search_inherit
 msgid "Shipping Country"
 msgstr ""
+
+#. module: sale_order_batch
+#: model_terms:ir.actions.server,arch_db:sale_order_batch.action_batch_lock_order
+msgid "Batch Lock Order"
+msgstr ""

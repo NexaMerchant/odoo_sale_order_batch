@@ -67,41 +67,22 @@
             <attribute name="editable">bottom</attribute>
           </xpath> -->
 
-          <xpath expr="//field[@name='partner_id']" position="after"> 
-              <!-- <button name="action_choose_delivery" 
-                    string="Choose Delivery" 
-                    type="object"
-                    icon="fa-truck"
-                    class="btn-primary"
-                    groups="base.group_user">
-              </button> -->
+          <xpath expr="//field[@name='name']" position="after">
+              <field name="order_line_images" widget="html"/>
               <field name="note" invisible="1" class="editable-note" />
-              <field name="payment_term_id" />
-              <field name="order_line" widget="many2many_tags" options="{'no_create': True}" avatar_field="product_id.image_900"/>
               <field name="shipping_country_id" 
                    widget="selection" 
                    options="{'no_create': True}"
                    filter_domain="[('shipping_country_id', 'ilike', self)]"
                    groups="base.group_user"/>
               <field name="delivery_number" string="Delivery Number" invisible="1"/>
-          </xpath> 
+              <field name="carrier_id"/>
+          </xpath>
       </field>
   </record>
 
-  <record id="view_sale_order_search_inherit" model="ir.ui.view">
-    <field name="name">sale.order.search.inherit</field>
-    <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_sales_order_filter"/>
-    <field name="arch" type="xml">
-        <field name="partner_id" position="after">
-            <field name="shipping_country_id"/>
-            <filter name="groupby_country" context="{'group_by': 'shipping_country_id'}"/>
-        </field>
-    </field>
- </record>
-
  <record id="action_batch_choose_delivery" model="ir.actions.server">
-      <field name="name">Batch Choose Delivery</field>
+      <field name="name">批量选择快递</field>
       <field name="model_id" ref="sale.model_sale_order"/>
       <field name="binding_model_id" ref="sale.model_sale_order"/>
       <field name="state">code</field>
@@ -111,7 +92,7 @@
   </record>
 
   <record id="action_batch_lock_order" model="ir.actions.server">
-      <field name="name">Batch Lock Order</field>
+      <field name="name">批量锁定订单</field>
       <field name="model_id" ref="sale.model_sale_order"/>
       <field name="binding_model_id" ref="sale.model_sale_order"/>
       <field name="state">code</field>
