@@ -28,6 +28,8 @@ Sale Order Batch
         'views/order_tree_v2.xml',
         'views/split_view_template.xml',
         'views/split_view_action.xml',
+        'views/sale_report_templates.xml',
+        'views/sale_order_tree_page.xml',
       #  'views/new_sale_order_view.xml',
       #  'views/left_menu.xml',
     ],

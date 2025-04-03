@@ -1,0 +1,52 @@
+<odoo>
+    <data>
+        <template id="custom_sale_order_tree_page" name="Custom Sale Order Tree Page">
+            <!-- 调用网站布局模板 -->
+                <div class="container">
+                    <div class="row">
+                        <!-- 左侧：状态筛选栏 -->
+                        <div class="col-md-3">
+                            <div class="order-filters">
+                                <h3>\订单状态</h3>
+                                <ul>
+                                    <li><a href="/sale_orders?status=draft">草稿</a></li>
+                                    <li><a href="/sale_orders?status=sent">已发送</a></li>
+                                    <li><a href="/sale_orders?status=sale">��确认</a></li>
+                                    <li><a href="/sale_orders?status=done">已完成</a></li>
+                                    <li><a href="/sale_orders?status=cancel">已取消</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- 右侧：订单列表及分页 -->
+                        <div class="col-md-9">
+                            <div class="order-list">
+                                <h3>\销售订单列表</h3>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>订单编号</th>
+                                            <th>客户</th>
+                                            <th>状态</th>
+                                            <th>总计</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="orders" t-as="order">
+                                            <tr>
+                                                <td><t t-esc="order.name"/></td>
+                                                <td><t t-esc="order.partner_id"/></td>
+                                                <td><t t-esc="order.state"/></td>
+                                                <td><t t-esc="order.amount_total"/></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                                <!-- 分页信息 -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </template>
+    </data>
+</odoo>
