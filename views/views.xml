@@ -75,11 +75,12 @@
                    options="{'no_create': True}"
                    filter_domain="[('shipping_country_id', 'ilike', self)]"
                    groups="base.group_user"/>
-              <field name="delivery_number" string="Delivery Number" invisible="1"/>
               <field name="carrier_id"/>
+              <field name="carrier_tracking_ref" string="跟踪码"/>
           </xpath>
       </field>
   </record>
+
 
  <record id="action_batch_choose_delivery" model="ir.actions.server">
       <field name="name">批量选择快递</field>

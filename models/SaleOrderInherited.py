@@ -40,6 +40,33 @@ class SaleOrderInherited(models.Model):
         store=True
     )
 
+    carrier_shipping_number = fields.Char(
+        string='物流号',
+        compute='_compute_carrier_shipping_number',
+        store=True
+    )
+
+    carrier_tracking_ref = fields.Char(
+        string='跟踪码',
+        compute='_compute_carrier_tracking_ref',
+        store=True
+    )
+
+    @api.depends('picking_ids.carrier_tracking_ref')
+    def _compute_carrier_tracking_ref(self):
+        for order in self:
+            # 可按需要选择最新寄送单或拼接所有寄送单跟踪码
+            tracking_refs = order.picking_ids.filtered(lambda p: p.state != 'cancel').mapped('carrier_tracking_ref')
+            order.carrier_tracking_ref = ', '.join(filter(None, tracking_refs)) or '无'
+
+    @api.depends('carrier_id')
+    def _compute_carrier_shipping_number(self):
+        for order in self:
+            if order.carrier_id and hasattr(order.carrier_id, 'shipping_number'):
+                order.carrier_shipping_number = order.carrier_id.shipping_number or '无'
+            else:
+                order.carrier_shipping_number = '无'
+
     payment_term_id = fields.Many2one('account.payment.term', string='Payment Term')
 
     # Add a new field to store the delivery carrier
@@ -53,6 +80,13 @@ class SaleOrderInherited(models.Model):
     def _compute_shipping_country(self):
         for order in self:
             order.shipping_country_id = order.partner_shipping_id.country_id
+
+    def action_batch_get_shipping_numbers(self):
+        for order in self:
+            # 示例业务逻辑：以订单号后四位生成面单号，可根据需要替换为实际获取逻辑
+            if order.name:
+                order.delivery_number = "SHP" + order.name[-4:]
+        return True
 
     def action_batch_choose_delivery(self):
         view_id = self.env.ref('delivery.choose_delivery_carrier_view_form').id
