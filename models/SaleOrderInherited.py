@@ -10,6 +10,18 @@ class SaleOrderInherited(models.Model):
 
     order_line_images = fields.Html(string='产品图片', compute='_compute_order_line_images')
 
+    shipping_status = fields.Selection([
+        ('pending', '待处理'),
+        ('draft', '运单号申请'),
+        ('waiting_stock', '待打单有货'),
+        ('waiting_backorder', '待打单缺货'),
+        ('shipped_success', '已交运发货成功'),
+        ('shipped_failed', '已交运发货失败'),
+        ('refunded', '已退款'),
+        ('on_hold', '已搁置'),
+        ('other', '其他'),
+    ], string='发货状态', default='pending', tracking=True)
+
     @api.depends('order_line')
     def _compute_order_line_images(self):
         for order in self:
@@ -56,6 +68,17 @@ class SaleOrderInherited(models.Model):
         compute='_compute_carrier_tracking_ref',
         store=True
     )
+
+    @api.model
+    def _read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
+        res = super()._read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
+        
+        # Add the count to the filter labels
+        for group in res:
+            if group.get('__domain'):
+                group['__count'] = self.search_count(group['__domain'])
+                group['display_name'] = '%s (%s)' % (group['display_name'], group['__count'])
+        return res
 
 
     def get_tracking_number_from_api(self, order):
