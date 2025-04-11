@@ -1,4 +1,9 @@
 from odoo import models, fields, api
+from odoo import tools
+from odoo.exceptions import UserError
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class SaleOrderInherited(models.Model):
     _inherit = 'sale.order'
@@ -18,7 +23,7 @@ class SaleOrderInherited(models.Model):
                     images_html += '<div style="display:inline-block;text-align:center;margin-right:2px;">'
                     if img_url:
                         images_html += '<img src="%s" style="height:60px;width:60px;border:1px solid #ccc;" />' % img_url
-                    images_html += '<div style="font-size:10px;">%s</div>' % product.name
+                    # images_html += '<div style="font-size:10px;">%s</div>' % product.name
                     images_html += '<div style="font-size:10px;color:#888;">SKU: %s</div>' % (
                                 product.default_code or '')
                     images_html += '</div>'
@@ -51,6 +56,62 @@ class SaleOrderInherited(models.Model):
         compute='_compute_carrier_tracking_ref',
         store=True
     )
+
+
+    def get_tracking_number_from_api(self, order):
+        print('get_tracking_number_from_api: ' + order.carrier_id.name)
+        print('get_tracking_number_from_api: ' + order.carrier_id.delivery_type)
+        if order.carrier_id and order.carrier_id.delivery_type == 'cnexpress':
+            # 在这里添加调用API的逻辑
+            # 例如，假设API返回一个物流号
+            # use CNEExpressRequest to get the tracking number
+            # 这里可以调用外部API或其他方法来获取物流号
+            # 例如，假设你从相关的 stock.picking 中获取物流号
+            # print(order.carrier_id.name)
+            # # print the order carrier_id method and attributes
+            # print(order.carrier_id)
+            # print(order.carrier_id.delivery_type)
+            # # print the order carrier_id public methods and attributes
+            # print(dir(order.carrier_id))
+            # # if the carrier_id is cneexpress, use api to get the tracking number
+
+
+            # order picking_ids
+            # if the order has picking_ids, get the first picking_id
+            tracking_number = ""
+            if order.picking_ids:
+                print("order.picking_ids")
+                print(order.picking_ids)
+                tracking_number = order.carrier_id.send_shipping(order.picking_ids)
+            print("get_tracking_number_from_api1111")
+            print(tracking_number)
+            return tracking_number
+
+
+
+    def action_batch_get_delivery_shipping_number(self):
+        for order in self:
+            # 在这里添加获取物流号的逻辑
+            # 如果没有选择物流配送跳过
+            if not order.carrier_id:
+                continue
+            # 如果有物流后，通过接口获取对应的物流号
+            # 这里可以调用外部API或其他方法来获取物流号
+
+            # 例如，假设你从相关的 stock.picking 中获取物流号
+            # 这里可以调用外部API或其他方法来获取物流号
+
+            # if the carrier_id is cneexpress, use api to get the tracking number
+
+            tracking_number = self.get_tracking_number_from_api(order)
+            print("action_batch_get_delivery_shipping_number")
+            print(tracking_number)
+
+
+
+            # 例如，假设你从相关的 stock.picking 中获取物流号
+            tracking_refs = order.picking_ids.filtered(lambda p: p.state != 'cancel').mapped('carrier_tracking_ref')
+            order.carrier_tracking_ref = ', '.join(filter(None, tracking_refs)) or '无'
 
     @api.depends('picking_ids.carrier_tracking_ref')
     def _compute_carrier_tracking_ref(self):
