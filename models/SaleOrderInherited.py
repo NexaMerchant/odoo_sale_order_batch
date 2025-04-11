@@ -32,13 +32,24 @@ class SaleOrderInherited(models.Model):
                     img_url = ''
                     if product.image_128:
                         img_url = '/web/image/product.product/%s/image_128' % product.id
-                    images_html += '<div style="display:inline-block;text-align:center;margin-right:2px;">'
+                    # Use a table to display the image and SKU side-by-side
+                    images_html += '<table style="width:100%; border-collapse: collapse; margin-bottom: 5px;">'
+                    images_html += '<tr>'
+                    
+                    # Image cell
+                    images_html += '<td style="width: 60px; padding: 5px; vertical-align: top;">'
                     if img_url:
                         images_html += '<img src="%s" style="height:60px;width:60px;border:1px solid #ccc;" />' % img_url
-                    # images_html += '<div style="font-size:10px;">%s</div>' % product.name
-                    images_html += '<div style="font-size:10px;color:#888;">SKU: %s</div>' % (
-                                product.default_code or '')
-                    images_html += '</div>'
+                    images_html += '</td>'
+                    
+                    # SKU and Price cell
+                    images_html += '<td style="padding: 5px; vertical-align: top;">'
+                    images_html += '<div style="font-size:12px;color:#888;">SKU: %s</div>' % (product.default_code or '')
+                    images_html += '<div style="font-size:12px;color:#888;">Price: %s</div>' % (line.price_unit)  # Display the price
+                    images_html += '</td>'
+                    
+                    images_html += '</tr>'
+                    images_html += '</table>'
             order.order_line_images = images_html
 
     custom_field = fields.Char(string='Custom Field')
