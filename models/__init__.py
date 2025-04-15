@@ -3,3 +3,4 @@
 from . import models
 from . import SaleOrderInherited
 from . import SaleOrderLine
+from . import StockLocation

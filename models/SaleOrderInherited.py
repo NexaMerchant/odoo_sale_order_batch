@@ -80,16 +80,8 @@ class SaleOrderInherited(models.Model):
         store=True
     )
 
-    @api.model
-    def _read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
-        res = super()._read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
-        
-        # Add the count to the filter labels
-        for group in res:
-            if group.get('__domain'):
-                group['__count'] = self.search_count(group['__domain'])
-                group['display_name'] = '%s (%s)' % (group['display_name'], group['__count'])
-        return res
+    shipping_time = fields.Datetime(string='Shipping Time', readonly=True, store=True)
+
 
 
     def get_tracking_number_from_api(self, order):
@@ -113,12 +105,28 @@ class SaleOrderInherited(models.Model):
             # order picking_ids
             # if the order has picking_ids, get the first picking_id
             tracking_number = ""
+            print("order.picking_ids")
+            print(order.picking_ids)
             if order.picking_ids:
                 print("order.picking_ids")
                 print(order.picking_ids)
                 tracking_number = order.carrier_id.send_shipping(order.picking_ids)
             print("get_tracking_number_from_api1111")
             print(tracking_number)
+            return tracking_number
+        if order.carrier_id and order.carrier_id.delivery_type == 'banlingkit':
+            # 在这里添加调用API的逻辑
+            # 例如，假设API返回一个物流号
+            tracking_number = ""
+            print("order.picking_ids")
+            print(order.picking_ids)
+            if order.picking_ids:
+                print("order.picking_ids")
+                print(order.picking_ids)
+                tracking_number = order.carrier_id.send_shipping(order.picking_ids)
+            else: 
+                _logger.warning("No picking_ids found for sale order %s", order.name)
+                print("get_tracking_number_from_api error" + order.name)
             return tracking_number
 
 
