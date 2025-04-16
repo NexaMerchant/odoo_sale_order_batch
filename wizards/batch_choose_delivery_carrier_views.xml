@@ -8,7 +8,7 @@
           <field name="carrier_id"/>
         </group>
         <footer>
-          <button string="应用" type="object" name="action_apply" class="btn-primary"/>
+          <button string="应用" type="object" name="action_apply" confirm="确定要批量修改快递方式吗？" class="btn-primary"/>
           <button string="取消" class="btn-secondary" special="cancel"/>
         </footer>
       </form>

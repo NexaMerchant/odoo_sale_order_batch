@@ -16,6 +16,6 @@ class BatchChooseDeliveryCarrier(models.TransientModel):
         return res
 
     def action_apply(self):
+        """Apply the selected carrier to the selected orders."""
         for order in self.order_ids:
-            # if order have 
             order.carrier_id = self.carrier_id.id
