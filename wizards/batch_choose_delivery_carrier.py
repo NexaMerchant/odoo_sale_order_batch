@@ -19,3 +19,5 @@ class BatchChooseDeliveryCarrier(models.TransientModel):
         """Apply the selected carrier to the selected orders."""
         for order in self.order_ids:
             order.carrier_id = self.carrier_id.id
+            # set the order shiping state to 'draft'
+            order.shipping_status = 'draft'

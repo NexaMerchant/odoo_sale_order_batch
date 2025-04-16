@@ -22,6 +22,18 @@ class SaleOrderInherited(models.Model):
         ('other', '其他'),
     ], string='发货状态', default='pending', tracking=True)
 
+    all_in_stock = fields.Boolean(string='全部有货', compute='_compute_all_in_stock', store=True)
+
+    @api.depends('order_line.product_id', 'order_line.product_uom_qty')
+    def _compute_all_in_stock(self):
+        for order in self:
+            in_stock = True
+            for line in order.order_line:
+                if line.product_id and line.product_id.qty_available < line.product_uom_qty:
+                    in_stock = False
+                    break
+            order.all_in_stock = in_stock
+
     @api.depends('order_line')
     def _compute_order_line_images(self):
         for order in self:
