@@ -1,0 +1,23 @@
+<odoo>
+  <report
+    id="action_report_batch_shipping_label"
+    model="stock.picking"
+    string="批量快递面单"
+    report_type="qweb-pdf"
+    name="sale_order_batch.report_batch_shipping_label"
+    file="sale_order_batch.report_batch_shipping_label"
+    print_report_name="'批量快递面单 - %s' % (object.name)"
+  />
+  <template id="report_batch_shipping_label">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="picking">
+        <h2>快递面单：<span t-esc="picking.name"/></h2>
+        <p>收件人：<span t-esc="picking.partner_id.name"/></p>
+        <p>地址：<span t-esc="picking.partner_id.contact_address"/></p>
+        <p>电话：<span t-esc="picking.partner_id.phone"/></p>
+        <p>快递单号：<span t-esc="picking.carrier_tracking_ref"/></p>
+        <hr/>
+      </t>
+    </t>
+  </template>
+</odoo>

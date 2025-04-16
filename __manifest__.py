@@ -20,6 +20,9 @@ Sale Order Batch
 
     # always loaded
     'data': [
+
+       # 'security/ir.model.access.csv',
+
         # 'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
@@ -28,10 +31,12 @@ Sale Order Batch
         'views/split_view_action.xml',
         'views/sale_report_templates.xml',
         'views/sale_order_tree_page.xml',
-        'views/batch_choose_delivery_carrier_views.xml',
 
         'wizards/batch_choose_delivery_carrier_views.xml',
         'wizards/batch_choose_delivery_carrier_access.xml',
+
+        'report/report_batch_picking.xml',
+        'report/report_batch_shipping_label.xml',
 
       #  'views/new_sale_order_view.xml',
       #  'views/left_menu.xml',

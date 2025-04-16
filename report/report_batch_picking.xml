@@ -1,0 +1,46 @@
+<odoo>
+  <report
+    id="action_report_batch_picking"
+    model="sale.order"
+    string="批量拣货单"
+    report_type="qweb-pdf"
+    name="sale_order_batch.report_batch_picking"
+    file="sale_order_batch.report_batch_picking"
+    print_report_name="'批量拣货单 - %s' % (object.name)"
+  />
+  <template id="report_batch_picking">
+    <t t-call="web.html_container">
+      <style>
+        @font-face {
+          font-family: "SimSun";
+          src: url("/web/static/src/fonts/SimSun.ttf");
+        }
+        body, table, th, td, h1, h2, h3, h4, h5, h6, p, span, div {
+          font-family: "SimSun", "Noto Sans SC", "Microsoft YaHei", "Arial", sans-serif !important;
+        }
+      </style>
+      <t t-foreach="docs" t-as="order">
+        <t t-foreach="order.picking_ids" t-as="picking">
+          <h2>拣货单：<span t-esc="picking.name"/></h2>
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>产品</th>
+                <th>数量</th>
+                <th>位置</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr t-foreach="picking.move_ids" t-as="move">
+                <td t-esc="move.product_id.display_name"/>
+                <td t-esc="move.product_uom_qty"/>
+                <td t-esc="move.location_id.display_name"/>
+              </tr>
+            </tbody>
+          </table>
+          <hr/>
+        </t>
+      </t>
+    </t>
+  </template>
+</odoo>
