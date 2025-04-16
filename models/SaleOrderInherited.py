@@ -192,18 +192,22 @@ class SaleOrderInherited(models.Model):
         return True
 
     def action_batch_choose_delivery(self):
-        view_id = self.env.ref('delivery.choose_delivery_carrier_view_form').id
+        view_id = self.env.ref('sale_order_batch.view_batch_choose_delivery_carrier_form').id
+        print("action_batch_choose_delivery")
+        print(view_id)
+        print(self.ids)
+        if not self.ids:
+            raise UserError("请先选择订单")
         return {
             'name': '批量选择配送方式',
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
-            'res_model': 'choose.delivery.carrier',
+            'res_model': 'batch.choose.delivery.carrier',
             'view_id': view_id,
             'views': [(view_id, 'form')],
             'target': 'new',
             'context': {
-                'default_order_ids': self.ids,
-                'active_ids': self.ids,
+                'default_order_ids': [(6, 0, self.ids)],
             }
         }
 
