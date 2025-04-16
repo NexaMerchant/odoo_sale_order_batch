@@ -33,6 +33,8 @@ class SaleOrderInherited(models.Model):
                     if product.image_128:
                         img_url = '/web/image/product.product/%s/image_128' % product.id
                     # Use a table to display the image and SKU side-by-side
+                    is_out_of_stock = (product.qty_available < line.product_uom_qty)
+                    stock_status = '<span style="color:red;">缺货</span>' if is_out_of_stock else '<span style="color:green;">有货</span>'
                     images_html += '<table style="width:100%; border-collapse: collapse; margin-bottom: 5px;">'
                     images_html += '<tr>'
                     
@@ -46,6 +48,8 @@ class SaleOrderInherited(models.Model):
                     images_html += '<td style="padding: 5px; vertical-align: top;">'
                     images_html += '<div style="font-size:12px;color:#888;">SKU: %s</div>' % (product.default_code or '')
                     images_html += '<div style="font-size:12px;color:#888;">Price: %s</div>' % (line.price_unit)  # Display the price
+                    images_html += '<div style="font-size:12px;color:#888;">Qty: %s</div>' % (line.product_uom_qty)  # Display the quantity
+                    images_html += '<div style="font-size:12px;">库存状态: %s</div>' % stock_status
                     images_html += '</td>'
                     
                     images_html += '</tr>'
