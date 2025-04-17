@@ -10,35 +10,75 @@
   />
   <template id="report_batch_picking">
     <t t-call="web.html_container">
-      <style>
-        @font-face {
-          font-family: "SimSun";
-          src: url("/web/static/src/fonts/SimSun.ttf");
-        }
-        body, table, th, td, h1, h2, h3, h4, h5, h6, p, span, div {
-          font-family: "SimSun", "Noto Sans SC", "Microsoft YaHei", "Arial", sans-serif !important;
-        }
-      </style>
+      <meta charset="utf-8"/>
+      <t t-set="style">
+        <![CDATA[
+          <style>
+            @page {
+              @page {
+                size: 100mm 150mm portrait;
+                margin: 5mm;
+              }
+            }
+            html, body {
+              width: 100%;
+              height: 100%;
+              margin: 0;
+              padding: 0;
+            }
+            body {
+              font-family: "SimHei", "Microsoft YaHei", "Noto Sans SC", DejaVu Sans, Arial, sans-serif;
+              font-size: 14px;
+            }
+            .container {
+              width: 100%;
+              box-sizing: border-box;
+            }
+            table.table-sm {
+              width: 100%;
+              table-layout: fixed;
+            }
+            th.product, td.product { width: 25%; }
+            th.qty, td.qty { width: 15%; }
+            th.location, td.location { width: 20%; }
+            th, td { word-break: break-all; }
+          </style>
+        ]]>
+      </t>
       <t t-foreach="docs" t-as="order">
+
         <t t-foreach="order.picking_ids" t-as="picking">
-          <h2>拣货单：<span t-esc="picking.name"/></h2>
-          <table class="table table-sm">
-            <thead>
-              <tr>
-                <th>产品</th>
-                <th>数量</th>
-                <th>位置</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr t-foreach="picking.move_ids" t-as="move">
-                <td t-esc="move.product_id.display_name"/>
-                <td t-esc="move.product_uom_qty"/>
-                <td t-esc="move.location_id.display_name"/>
-              </tr>
-            </tbody>
-          </table>
-          <hr/>
+          <div class="container">
+            <h3>拣货单号 ：<span t-esc="picking.name"/></h3>
+            <h3>拣货单状态 ：<span t-esc="picking.state"/></h3>
+            <h3>拣货单创建时间 ：<span t-esc="picking.create_date"/></h3>
+            <h3>拣货单创建人 ：<span t-esc="picking.create_uid.name"/></h3>
+            <h3>面单号 ：<span t-esc="picking.carrier_tracking_ref"/></h3>
+            <h3>快递公司 ：<span t-esc="picking.carrier_id.name"/></h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="product" width="25%">SKU</th>
+                  <th class="variant" width="20%">变体</th>
+                  <th class="qty" width="15%" >数量</th>
+                  <th class="location" width="20%">位置</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr t-foreach="picking.move_ids" t-as="move">
+                  <td class="product"  t-esc="move.product_id.default_code"/>
+                  <td class="variant">
+                    <t t-foreach="move.product_id.product_template_attribute_value_ids" t-as="attr">
+                      <span t-esc="attr.display_name"/><t t-if="not loop.last">, </t>
+                    </t>
+                  </td>
+                  <td class="qty"  t-esc="move.product_uom_qty"/>
+                  <td class="location" t-esc="move.location_id.display_name"/>
+                </tr>
+              </tbody>
+            </table>
+            <hr/>
+          </div>
         </t>
       </t>
     </t>

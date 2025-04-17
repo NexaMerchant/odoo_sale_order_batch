@@ -63,6 +63,8 @@
       <field name="inherit_id" ref="sale.view_order_tree"/>
       <field name="arch" type="xml">
 
+         
+
           <!-- <xpath expr="//list" position="attributes">
             <attribute name="editable">bottom</attribute>
           </xpath> -->
@@ -124,5 +126,20 @@
             </xpath>
         </field>
     </record>
+
+    <record id="action_batch_print_label" model="ir.actions.server">
+      <field name="name">批量打印面单</field>
+      <field name="model_id" ref="sale.model_sale_order"/>
+      <field name="binding_model_id" ref="sale.model_sale_order"/>
+      <field name="state">code</field>
+      <field name="code">
+          action = {
+              "type": "ir.actions.act_url",
+              "url": '/report/pdf/sale_order_batch.report_batch_picking?ids=%s' % ','.join(map(str, env.context.get('active_ids', []))),
+              "target": "self",
+          }
+      </field>
+    </record>
+
   </data>
 </odoo>

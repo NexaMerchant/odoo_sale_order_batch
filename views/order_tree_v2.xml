@@ -6,15 +6,20 @@
         <field name="inherit_id" ref="sale.view_sales_order_filter"/>
         <field name="arch" type="xml">
             <xpath expr="//search" position="inside">
-              <filter string="待处理" name="shipping_status_pending" domain="[('shipping_status', '=', 'pending')]" context="{'search_default_shipping_status_pending': 1}"/>
-              <filter string="运单号申请" name="shipping_status_draft" domain="[('shipping_status', '=', 'draft')]" context="{'search_default_shipping_status_draft': 1}"/>
-              <filter string="待打单有货" name="shipping_status_waiting_stock" domain="[('shipping_status', '=', 'waiting_stock'),  ('all_in_stock', '=', True)]" context="{'search_default_shipping_status_waiting_stock': 1}"/>
-              <filter string="待打单缺货" name="shipping_status_waiting_backorder" domain="[('shipping_status', '=', 'waiting_backorder'), ('all_in_stock', '=', False)]" context="{'search_default_shipping_status_waiting_backorder': 1}"/>
-              <filter string="已交运发货成功" name="shipping_status_shipped_success" domain="[('shipping_status', '=', 'shipped_success')]" context="{'search_default_shipping_status_shipped_success': 1}"/>
-              <filter string="已交运发货失败" name="shipping_status_shipped_failed" domain="[('shipping_status', '=', 'shipped_failed')]" context="{'search_default_shipping_status_shipped_failed': 1}"/>
-              <filter string="已退款" name="shipping_status_refunded" domain="[('shipping_status', '=', 'refunded')]" context="{'search_default_shipping_status_refunded': 1}"/>
-              <filter string="已搁置" name="shipping_status_on_hold" domain="[('shipping_status', '=', 'on_hold')]" context="{'search_default_shipping_status_on_hold': 1}"/>
-              <filter string="其他" name="shipping_status_other" domain="[('shipping_status', '=', 'other')]" context="{'search_default_shipping_status_other': 1}"/>
+              <group expand="0" string="按店铺分组">
+                <filter string="待处理" name="shipping_status_pending" domain="[('shipping_status', '=', 'pending')]" context="{'search_default_shipping_status_pending': 1}"/>
+                <filter string="运单号申请" name="shipping_status_draft" domain="[('shipping_status', '=', 'draft')]" context="{'search_default_shipping_status_draft': 1}"/>
+                <filter string="待打单有货" name="shipping_status_waiting_stock" domain="[('shipping_status', '=', 'waiting_stock'),  ('all_in_stock', '=', True)]" context="{'search_default_shipping_status_waiting_stock': 1}"/>
+                <filter string="待打单缺货" name="shipping_status_waiting_backorder" domain="[('shipping_status', '=', 'waiting_backorder'), ('all_in_stock', '=', False)]" context="{'search_default_shipping_status_waiting_backorder': 1}"/>
+                <filter string="已交运发货成功" name="shipping_status_shipped_success" domain="[('shipping_status', '=', 'shipped_success')]" context="{'search_default_shipping_status_shipped_success': 1}"/>
+                <filter string="已交运发货失败" name="shipping_status_shipped_failed" domain="[('shipping_status', '=', 'shipped_failed')]" context="{'search_default_shipping_status_shipped_failed': 1}"/>
+                <filter string="已退款" name="shipping_status_refunded" domain="[('shipping_status', '=', 'refunded')]" context="{'search_default_shipping_status_refunded': 1}"/>
+                <filter string="已搁置" name="shipping_status_on_hold" domain="[('shipping_status', '=', 'on_hold')]" context="{'search_default_shipping_status_on_hold': 1}"/>
+                <filter string="其他" name="shipping_status_other" domain="[('shipping_status', '=', 'other')]" context="{'search_default_shipping_status_other': 1}"/>
+              </group>
+              <separator/>
+              <filter string="按店铺分组" name="group_by_website" context="{'group_by':'website_id'}"/>
+              <field name="website_id"/>
           </xpath>
         </field>
     </record>

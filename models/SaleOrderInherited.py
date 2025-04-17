@@ -34,6 +34,15 @@ class SaleOrderInherited(models.Model):
                     break
             order.all_in_stock = in_stock
 
+    def action_print_label(self):
+        self.ensure_one()
+        url = '/report/pdf/sale_order_batch.report_batch_picking?ids=%s' % self.id
+        return {
+            'type': 'ir.actions.act_url',
+            'url': url,
+            'target': 'self',
+        }
+
     @api.depends('order_line')
     def _compute_order_line_images(self):
         for order in self:
