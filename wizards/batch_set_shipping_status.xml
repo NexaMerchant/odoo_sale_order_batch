@@ -1,0 +1,17 @@
+<odoo>
+  <record id="view_batch_set_shipping_status_wizard" model="ir.ui.view">
+    <field name="name">batch.set.shipping.status.wizard.form</field>
+    <field name="model">batch.set.shipping.status</field>
+    <field name="arch" type="xml">
+      <form string="批量设置发货状态">
+        <group>
+          <field name="shipping_status"/>
+        </group>
+        <footer>
+          <button string="应用" type="object" name="action_apply" class="btn-primary"/>
+          <button string="取消" special="cancel"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+</odoo>
