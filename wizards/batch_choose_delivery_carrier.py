@@ -21,3 +21,18 @@ class BatchChooseDeliveryCarrier(models.TransientModel):
             order.carrier_id = self.carrier_id.id
             # set the order shiping state to 'draft'
             order.shipping_status = 'draft'
+            # 添加快递商品到order line（如果没有）
+            carrier_product = self.carrier_id.product_id
+            
+            if carrier_product:
+                # 检查是否已存在快递商品
+                exist = order.order_line.filtered(lambda l: l.product_id == carrier_product)
+                if not exist:
+                    order.order_line.create({
+                        'order_id': order.id,
+                        'product_id': carrier_product.id,
+                        'name': carrier_product.name,
+                        'product_uom_qty': 1,
+                        'product_uom': carrier_product.uom_id.id,
+                        'price_unit': carrier_product.lst_price,
+                    })

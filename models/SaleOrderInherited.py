@@ -112,7 +112,7 @@ class SaleOrderInherited(models.Model):
     def get_tracking_number_from_api(self, order):
         print('get_tracking_number_from_api: ' + order.carrier_id.name)
         print('get_tracking_number_from_api: ' + order.carrier_id.delivery_type)
-        if order.carrier_id and order.carrier_id.delivery_type == 'cnexpress':
+        if order.carrier_id and order.picking_ids and order.carrier_id.delivery_type == 'cnexpress':
             # 在这里添加调用API的逻辑
             # 例如，假设API返回一个物流号
             # use CNEExpressRequest to get the tracking number
@@ -136,10 +136,8 @@ class SaleOrderInherited(models.Model):
                 print("order.picking_ids")
                 print(order.picking_ids)
                 tracking_number = order.carrier_id.send_shipping(order.picking_ids)
-            print("get_tracking_number_from_api1111")
-            print(tracking_number)
             return tracking_number
-        if order.carrier_id and order.carrier_id.delivery_type == 'banlingkit':
+        if order.carrier_id and order.picking_ids and order.carrier_id.delivery_type == 'banlingkit':
             # 在这里添加调用API的逻辑
             # 例如，假设API返回一个物流号
             tracking_number = ""
@@ -149,10 +147,8 @@ class SaleOrderInherited(models.Model):
                 print("order.picking_ids")
                 print(order.picking_ids)
                 tracking_number = order.carrier_id.send_shipping(order.picking_ids)
-            else: 
-                _logger.warning("No picking_ids found for sale order %s", order.name)
-                print("get_tracking_number_from_api error" + order.name)
             return tracking_number
+        return False
 
 
 

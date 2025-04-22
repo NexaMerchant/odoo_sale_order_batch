@@ -1,88 +1,28 @@
 <odoo>
   <data>
-    <!-- explicit list view definition -->
-<!--
-    <record model="ir.ui.view" id="sale_order_batch.list">
-      <field name="name">sale_order_batch list</field>
-      <field name="model">sale_order_batch.sale_order_batch</field>
-      <field name="arch" type="xml">
-        <list>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </list>
-      </field>
+    <record id="view_sale_order_tree_inherit_sale_order_batch" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherit.sale.order.batch</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <!-- <xpath expr="//list" position="attributes">
+              <attribute name="editable">bottom</attribute>
+            </xpath> -->
+
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="order_line_images" widget="html"/>
+                <field name="shipping_status"/>
+                <field name="note" invisible="1" class="editable-note" />
+                <field name="shipping_country_id" 
+                    widget="selection" 
+                    options="{'no_create': True}"
+                    filter_domain="[('shipping_country_id', 'ilike', self)]"
+                    groups="base.group_user"/>
+                <field name="carrier_id"/>
+                <field name="carrier_tracking_ref" string="跟踪码"/>
+            </xpath>
+        </field>
     </record>
--->
-
-    <!-- actions opening views on models -->
-<!--
-    <record model="ir.actions.act_window" id="sale_order_batch.action_window">
-      <field name="name">sale_order_batch window</field>
-      <field name="res_model">sale_order_batch.sale_order_batch</field>
-      <field name="view_mode">list,form</field>
-    </record>
--->
-
-    <!-- server action to the one above -->
-<!--
-    <record model="ir.actions.server" id="sale_order_batch.action_server">
-      <field name="name">sale_order_batch server</field>
-      <field name="model_id" ref="model_sale_order_batch_sale_order_batch"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "list,form",
-          "res_model": model._name,
-        }
-      </field>
-    </record>
--->
-
-    <!-- Top menu item -->
-<!--
-    <menuitem name="sale_order_batch" id="sale_order_batch.menu_root"/>
--->
-    <!-- menu categories -->
-<!--
-    <menuitem name="Menu 1" id="sale_order_batch.menu_1" parent="sale_order_batch.menu_root"/>
-    <menuitem name="Menu 2" id="sale_order_batch.menu_2" parent="sale_order_batch.menu_root"/>
--->
-    <!-- actions -->
-<!--
-    <menuitem name="List" id="sale_order_batch.menu_1_list" parent="sale_order_batch.menu_1"
-              action="sale_order_batch.action_window"/>
-    <menuitem name="Server to list" id="sale_order_batch" parent="sale_order_batch.menu_2"
-              action="sale_order_batch.action_server"/>
--->
-
-  <record id="view_sale_order_tree_inherit_sale_order_batch" model="ir.ui.view">
-      <field name="name">sale.order.tree.inherit.sale.order.batch</field>
-      <field name="model">sale.order</field>
-      <field name="inherit_id" ref="sale.view_order_tree"/>
-      <field name="arch" type="xml">
-
-         
-
-          <!-- <xpath expr="//list" position="attributes">
-            <attribute name="editable">bottom</attribute>
-          </xpath> -->
-
-          <xpath expr="//field[@name='name']" position="after">
-              <field name="order_line_images" widget="html"/>
-              <field name="shipping_status"/>
-              <field name="note" invisible="1" class="editable-note" />
-              <field name="shipping_country_id" 
-                   widget="selection" 
-                   options="{'no_create': True}"
-                   filter_domain="[('shipping_country_id', 'ilike', self)]"
-                   groups="base.group_user"/>
-              <field name="carrier_id"/>
-              <field name="carrier_tracking_ref" string="跟踪码"/>
-          </xpath>
-      </field>
-  </record>
 
       <!-- 批量获取物流号操作 -->
     <record id="action_batch_get_delivery_shipping_number" model="ir.actions.server">
