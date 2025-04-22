@@ -32,6 +32,6 @@ jobs:
         port: ${{secrets.SSH_PORT_ERP }}
         script: |
           cd /www/wwwroot/shell
-          ./batch_shell_composer_local.sh $GITHUB_SHA_X > output.log 2>&1 &
+          ./batch_shell_composer_local.sh sale_order_batch > output.log 2>&1 &
           echo "Script started in the background. Check output.log for details."
 
