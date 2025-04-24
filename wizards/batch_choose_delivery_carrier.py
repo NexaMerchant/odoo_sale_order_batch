@@ -26,6 +26,9 @@ class BatchChooseDeliveryCarrier(models.TransientModel):
             order._create_delivery_line(self.carrier_id, price)
             #order._compute_amount_all()
             # 如需自定义快递商品行，可保留以下逻辑
+            # 设置拣货单的快递方式
+            order.carrier_id = self.carrier_id.id
+            # 设置拣货单的快递单号为空
             carrier_product = self.carrier_id.product_id
             if carrier_product:
                 exist = order.order_line.filtered(lambda l: l.product_id == carrier_product)
