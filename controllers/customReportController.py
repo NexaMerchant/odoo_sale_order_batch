@@ -21,7 +21,12 @@ class CustomReportController(http.Controller):
         report_obj = request.env['ir.actions.report']
         writer = PdfWriter()
 
+        # check the sale order is not printed and need to confirm continue printing
+
         for order_id in id_list:
+
+            # 1. 检查订单是否已打印
+
             # 1. 生成主报表PDF
             pdf_content, _ = report_obj._render_qweb_pdf('sale_order_batch.action_report_batch_picking', [order_id])
             reader_main = PdfReader(io.BytesIO(pdf_content))
@@ -78,7 +83,7 @@ class CustomReportController(http.Controller):
         pdfhttpheaders = [
             ('Content-Type', 'application/pdf'),
             ('Content-Length', len(merged_pdf)),
-            ('Content-Disposition', 'attachment; filename="%s"' % filename),
+            ('Content-Disposition', 'inline; filename="%s"' % filename),
             ('Content-Transfer-Encoding', 'binary'),
         ]
         return request.make_response(merged_pdf, headers=pdfhttpheaders)
