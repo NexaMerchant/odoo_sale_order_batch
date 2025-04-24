@@ -17,7 +17,7 @@
             @page {
               @page {
                 size: 100mm 150mm portrait;
-                margin: 5mm;
+                margin: 1mm;
               }
             }
             html, body {
@@ -54,6 +54,7 @@
             <h3>拣货单创建时间 ：<span t-esc="picking.create_date"/></h3>
             <h3>面单号 ：<span t-esc="picking.carrier_tracking_ref"/></h3>
             <h3>快递公司 ：<span t-esc="picking.carrier_id.name"/></h3>
+            <h3>备注 ：<span t-esc="order.note"/></h3>
             <table class="table">
               <thead>
                 <tr>

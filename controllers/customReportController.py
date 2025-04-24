@@ -80,6 +80,9 @@ class CustomReportController(http.Controller):
         message += "\n打印时间: %s" % fields.Datetime.now()
         sale_order.message_post(body=message)
 
+        # update the order print time
+        sale_order.write({'print_time': fields.Datetime.now()})
+
         pdfhttpheaders = [
             ('Content-Type', 'application/pdf'),
             ('Content-Length', len(merged_pdf)),
