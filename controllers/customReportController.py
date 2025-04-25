@@ -81,7 +81,7 @@ class CustomReportController(http.Controller):
         sale_order.message_post(body=message)
 
         # update the order print time
-        sale_order.write({'print_time': fields.Datetime.now()})
+        # sale_order.write({'print_time': fields.Datetime.now()})
 
         pdfhttpheaders = [
             ('Content-Type', 'application/pdf'),
