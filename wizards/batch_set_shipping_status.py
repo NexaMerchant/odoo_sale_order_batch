@@ -13,6 +13,7 @@ class BatchSetShippingStatus(models.TransientModel):
         ('shipped_failed', '已交运发货失败'),
         ('refunded', '已退款'),
         ('on_hold', '已搁置'),
+        ('not_postd', '暂不发'),
         ('other', '其他'),
     ], string='发货状态', required=True)
 

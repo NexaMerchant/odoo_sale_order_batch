@@ -16,6 +16,7 @@
                 <filter string="已交运发货失败" name="shipping_status_shipped_failed" domain="[('shipping_status', '=', 'shipped_failed')]" context="{'search_default_shipping_status_shipped_failed': 1}"/>
                 <filter string="已退款" name="shipping_status_refunded" domain="[('shipping_status', '=', 'refunded')]" context="{'search_default_shipping_status_refunded': 1}"/>
                 <filter string="已搁置" name="shipping_status_on_hold" domain="[('shipping_status', '=', 'on_hold')]" context="{'search_default_shipping_status_on_hold': 1}"/>
+                <filter string="暂不发" name="shipping_status_not_postd" domain="[('shipping_status', '=', 'not_postd')]" context="{'search_default_shipping_status_not_postd': 1}"/>
                 <filter string="其他" name="shipping_status_other" domain="[('shipping_status', '=', 'other')]" context="{'search_default_shipping_status_other': 1}"/>
               </group>
               <separator/>
