@@ -270,3 +270,32 @@ class SaleOrderInherited(models.Model):
                 'default_carrier_id': self.carrier_id.id
             }
         }
+    
+    # 订单备注
+    def action_show_note_popup(self):
+        self.ensure_one()
+        view_id = self.env.ref('sale_order_batch.view_sale_order_note_popup_form').id
+        return {
+            'type': 'ir.actions.act_window',
+            'name': '订单备注',
+            'res_model': 'sale.order',
+            'view_mode': 'form',
+            'res_id': self.id,
+            'target': 'new',
+            'views': [(view_id, 'form')],
+            'context': {'form_view_initial_mode': 'view'},
+        }
+    
+    # 让note字段支持chatter自动记录
+    def write(self, vals):
+        if 'note' in vals:
+            old_note = self.note
+            res = super().write(vals)
+            for order in self:
+                if order.note != old_note:
+                    order.message_post(
+                        body=f"订单备注已修改：<br/><b>原内容：</b><br/>{old_note or ''}<br/><b>新内容：</b><br/>{order.note or ''}",
+                        subtype_xmlid="mail.mt_note"
+                    )
+            return res
+        return super().write(vals)
