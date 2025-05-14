@@ -73,7 +73,7 @@
                   </td>
                   <td class="variant">
                     <t t-foreach="move.product_id.product_template_attribute_value_ids" t-as="attr">
-                      <span t-esc="attr.display_name"/><t t-if="not loop.last">, </t>
+                      <span t-esc="attr.display_name"/>
                     </t>
                   </td>
                   <td class="qty"  t-esc="move.product_uom_qty"/>

@@ -25,6 +25,7 @@
                     groups="base.group_user"/>
                 <field name="carrier_id"/>
                 <field name="carrier_tracking_ref" string="跟踪码"/>
+                <field name="print_time" string="打印时间"/>
             </xpath>
         </field>
     </record>
@@ -95,7 +96,7 @@
           action = {
               "type": "ir.actions.act_url",
               "url": '/report/pdf/sale_order_batch.report_batch_picking?ids=%s' % ','.join(map(str, env.context.get('active_ids', []))),
-              "target": "self",
+              "target": "new",
           }
       </field>
     </record>

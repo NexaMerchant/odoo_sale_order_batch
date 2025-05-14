@@ -108,6 +108,8 @@ class SaleOrderInherited(models.Model):
 
     shipping_time = fields.Datetime(string='Shipping Time', readonly=True, store=True)
 
+    print_time = fields.Datetime(string='Print Time', readonly=True, store=True)
+
 
 
     def get_tracking_number_from_api(self, order):
@@ -133,10 +135,11 @@ class SaleOrderInherited(models.Model):
             tracking_number = ""
             print("order.picking_ids")
             print(order.picking_ids)
-            if order.picking_ids:
-                print("order.picking_ids")
-                print(order.picking_ids)
-                tracking_number = order.carrier_id.send_shipping(order.picking_ids)
+            for picking in order.picking_ids:
+                if not picking.carrier_id:
+                    picking.carrier_id = order.carrier_id.id
+
+            tracking_number = order.carrier_id.send_shipping(order.picking_ids)
             return tracking_number
         if order.carrier_id and order.picking_ids and order.carrier_id.delivery_type == 'banlingkit':
             # 在这里添加调用API的逻辑

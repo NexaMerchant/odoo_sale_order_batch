@@ -28,10 +28,27 @@ class CustomReportController(http.Controller):
             # 1. 检查订单是否已打印
 
             # 1. 生成主报表PDF
-            pdf_content, _ = report_obj._render_qweb_pdf('sale_order_batch.action_report_batch_picking', [order_id])
-            reader_main = PdfReader(io.BytesIO(pdf_content))
-            for page in reader_main.pages:
-                writer.add_page(page)
+            try:
+                sale_order = request.env['sale.order'].sudo().browse(order_id)
+                if not sale_order:
+                    raise UserError("订单不存在或已被删除")
+                if sale_order.print_time:
+                    raise UserError("订单已打印，无法再次打印")
+            except UserError as e:
+                return request.not_found(e.name)
+            except Exception as e:
+                return request.not_found("发生错误: %s" % str(e))
+            try:
+            # 1. 生成主报表PDF
+                pdf_content, _ = report_obj._render_qweb_pdf('sale_order_batch.action_report_batch_picking', [order_id])
+                print("pdf_content", pdf_content)
+                if not pdf_content:
+                    raise UserError("生成主报表PDF时发生错误")
+                reader_main = PdfReader(io.BytesIO(pdf_content))
+                for page in reader_main.pages:
+                    writer.add_page(page)
+            except Exception as e:
+                return request.not_found("生成主报表PDF时发生错误: %s" % str(e))
 
             # 2. 获取外部PDF（可根据订单号动态生成URL）
             # 这里以订单号为快递单号举例，实际可根据你的业务调整
@@ -61,6 +78,9 @@ class CustomReportController(http.Controller):
                 reader_attach = PdfReader(io.BytesIO(external_pdf))
                 for page in reader_attach.pages:
                     writer.add_page(page)
+
+            # 配置 sale order 的打印时间
+            sale_order.write({'print_time': fields.Datetime.now()})
 
         output = io.BytesIO()
         writer.write(output)
