@@ -37,3 +37,17 @@ odoo.define('sale_order_batch.SplitView', function (require) {
     core.action_registry.add('sale_order_split_view', SplitView);
     return SplitView;
 });
+
+odoo.define('sale_order_batch.TreeNoOpen', function (require) {
+    "use strict";
+    const ListRenderer = require('web.ListRenderer');
+    const { patch } = require('web.utils');
+  
+    patch(ListRenderer.prototype, 'sale_order_batch.TreeNoOpen', {
+      // 覆盖点击打开行的方法
+      _onRowOpen(ev) {
+        ev.stopPropagation(); // 阻止继续打开
+        console.log('Suppressed open row');
+      },
+    });
+});

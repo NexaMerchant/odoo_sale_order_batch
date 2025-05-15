@@ -5,12 +5,13 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_tree"/>
         <field name="arch" type="xml">
-            <!-- <xpath expr="//list" position="attributes">
-              <attribute name="editable">bottom</attribute>
-            </xpath> -->
+            <xpath expr="//tree" position="attributes">
+              <attribute name="edit">tree</attribute>
+              <attribute name="js_class">sale_order_batch.TreeNoOpen</attribute>
+            </xpath>
 
             <xpath expr="//field[@name='name']" position="after">
-                <field name="shipping_status"/>
+                <field name="shipping_status" readonly="True"  options="{'no_open': True}" attrs="{'no_open': True}" />
                 <field name="note" invisible="1"/>
                 <button name="action_show_note_popup"
                         string="备注"
@@ -23,9 +24,9 @@
                     options="{'no_create': True}"
                     filter_domain="[('shipping_country_id', 'ilike', self)]"
                     groups="base.group_user"/>
-                <field name="carrier_id"/>
-                <field name="carrier_tracking_ref" string="跟踪码"/>
-                <field name="print_time" string="打印时间"/>
+                <field name="carrier_id" readonly="True"/>
+                <field name="carrier_tracking_ref" string="跟踪码" readonly="True"/>
+                <field name="print_time" string="打印时间" readonly="True"/>
             </xpath>
         </field>
     </record>

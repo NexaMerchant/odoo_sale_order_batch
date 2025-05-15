@@ -47,8 +47,15 @@ Sale Order Batch
     'demo': [
         'demo/demo.xml',
     ],
+    "assets": {
+        'web.assets_backend': [
+            'sale_order_batch/static/src/js/list_disable_open.js',
+        ]
+    },
     'installable': True,
     'application': True,
     'auto_install': False,
+    'license': 'LGPL-3',
+
 }
 
