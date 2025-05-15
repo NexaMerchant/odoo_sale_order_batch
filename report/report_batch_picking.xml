@@ -58,23 +58,23 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th class="product" width="25%">SKU</th>
+                  <th class="product" width="25%">名称</th>
                   <th class="image" width="20%">图片</th>
-                  <th class="variant" width="20%">变体</th>
+                  <th class="variant" width="20%">SKU</th>
                   <th class="qty" width="15%" >数量</th>
                   <th class="location" width="20%">位置</th>
                 </tr>
               </thead>
               <tbody>
                 <tr t-foreach="picking.move_ids" t-as="move">
-                  <td class="product"  t-esc="move.product_id.default_code"/>
+                  <td class="product">
+                    <t t-esc="move.product_id.display_name"/>
+                  </td>
                   <td class="image">
                     <img t-att-src="request.httprequest.host_url + 'web/image/product.product/%s/image_128' % move.product_id.id" alt="Product Image" style="width: 50px; height: 50px;"/>
                   </td>
                   <td class="variant">
-                    <t t-foreach="move.product_id.product_template_attribute_value_ids" t-as="attr">
-                      <span t-esc="attr.display_name"/>
-                    </t>
+                    <t t-esc="move.product_id.default_code"/>
                   </td>
                   <td class="qty"  t-esc="move.product_uom_qty"/>
                   <td class="location" t-esc="move.location_id.display_name"/>
