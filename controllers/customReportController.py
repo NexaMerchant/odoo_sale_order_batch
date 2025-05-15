@@ -32,8 +32,8 @@ class CustomReportController(http.Controller):
                 sale_order = request.env['sale.order'].sudo().browse(order_id)
                 if not sale_order:
                     raise UserError("订单不存在或已被删除")
-                if sale_order.print_time:
-                    raise UserError("订单已打印，无法再次打印")
+                # if sale_order.print_time:
+                #     raise UserError("订单已打印，无法再次打印")
             except UserError as e:
                 return request.not_found(e.name)
             except Exception as e:
