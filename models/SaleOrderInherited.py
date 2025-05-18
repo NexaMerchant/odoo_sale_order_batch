@@ -195,11 +195,17 @@ class SaleOrderInherited(models.Model):
             print("action_batch_get_delivery_shipping_number")
             print(tracking_number)
 
-
-
             # 例如，假设你从相关的 stock.picking 中获取物流号
             tracking_refs = order.picking_ids.filtered(lambda p: p.state != 'cancel').mapped('carrier_tracking_ref')
             order.carrier_tracking_ref = ', '.join(filter(None, tracking_refs)) or '无'
+
+            # set shipping_status to waiting_stock or waiting_backorder
+            if order.all_in_stock:
+                order.shipping_status = 'waiting_stock'
+            else:
+                order.shipping_status = 'waiting_backorder'
+
+                
 
     @api.depends('picking_ids.carrier_tracking_ref')
     def _compute_carrier_tracking_ref(self):
