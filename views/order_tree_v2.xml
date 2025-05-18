@@ -20,7 +20,7 @@
                 <filter string="其他" name="shipping_status_other" domain="[('shipping_status', '=', 'other')]" context="{'search_default_shipping_status_other': 1}"/>
               </group>
               <separator/>
-              <group expand="0" string="按照发货国家分组" name="shipping_country_group">
+              <!-- <group expand="0" string="按照发货国家分组" name="shipping_country_group">
                 <filter string="所有" name="shipping_country_all" domain="[('shipping_country', '!=', False)]" context="{'search_default_shipping_country_all': 1}"/>
                 <filter string="美国" name="shipping_country_us" domain="[('shipping_country', '=', 'US')]" context="{'search_default_shipping_country_us': 1}"/>
                 <filter string="德国" name="shipping_country_de" domain="[('shipping_country', '=', 'DE')]" context="{'search_default_shipping_country_de': 1}"/>
@@ -36,7 +36,7 @@
                 <filter string="英国" name="shipping_country_gb" domain="[('shipping_country', '=', 'GB')]" context="{'search_default_shipping_country_gb': 1}"/>
                 <!-- <filter string="其他" name="shipping_country_other" domain="[('shipping_country', 'not in', ['US', 'CA', 'GB'])]" context="{'search_default_shipping_country_other': 1}"/> -->
               </group>
-              <separator/>
+              <separator/> -->
           </xpath>
         </field>
     </record>
