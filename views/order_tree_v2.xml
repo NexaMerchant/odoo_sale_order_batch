@@ -20,23 +20,8 @@
                 <filter string="其他" name="shipping_status_other" domain="[('shipping_status', '=', 'other')]" context="{'search_default_shipping_status_other': 1}"/>
               </group>
               <separator/>
-              <!-- <group expand="0" string="按照发货国家分组" name="shipping_country_group">
-                <filter string="所有" name="shipping_country_all" domain="[('shipping_country', '!=', False)]" context="{'search_default_shipping_country_all': 1}"/>
-                <filter string="美国" name="shipping_country_us" domain="[('shipping_country', '=', 'US')]" context="{'search_default_shipping_country_us': 1}"/>
-                <filter string="德国" name="shipping_country_de" domain="[('shipping_country', '=', 'DE')]" context="{'search_default_shipping_country_de': 1}"/>
-                <filter string="西班牙" name="shipping_country_es" domain="[('shipping_country', '=', 'ES')]" context="{'search_default_shipping_country_es': 1}"/>
-                <filter string="荷兰" name="shipping_country_nl" domain="[('shipping_country', '=', 'NL')]" context="{'search_default_shipping_country_nl': 1}"/>
-                <filter string="比利时" name="shipping_country_be" domain="[('shipping_country', '=', 'BE')]" context="{'search_default_shipping_country_be': 1}"/>
-                <filter string="瑞士" name="shipping_country_ch" domain="[('shipping_country', '=', 'CH')]" context="{'search_default_shipping_country_ch': 1}"/>
-                <filter string="奥地利" name="shipping_country_at" domain="[('shipping_country', '=', 'AT')]" context="{'search_default_shipping_country_at': 1}"/>
-                <filter string="澳大利亚" name="shipping_country_au" domain="[('shipping_country', '=', 'AU')]" context="{'search_default_shipping_country_au': 1}"/>
-                <filter string="法国" name="shipping_country_fr" domain="[('shipping_country', '=', 'FR')]" context="{'search_default_shipping_country_fr': 1}"/>
-                <filter string="意大利" name="shipping_country_it" domain="[('shipping_country', '=', 'IT')]" context="{'search_default_shipping_country_it': 1}"/>
-                <filter string="加拿大" name="shipping_country_ca" domain="[('shipping_country', '=', 'CA')]" context="{'search_default_shipping_country_ca': 1}"/>
-                <filter string="英国" name="shipping_country_gb" domain="[('shipping_country', '=', 'GB')]" context="{'search_default_shipping_country_gb': 1}"/>
-                <!-- <filter string="其他" name="shipping_country_other" domain="[('shipping_country', 'not in', ['US', 'CA', 'GB'])]" context="{'search_default_shipping_country_other': 1}"/> -->
-              </group>
-              <separator/> -->
+              <filter string="按店铺分组" name="group_by_website" context="{'group_by':'website_id'}"/>
+              <field name="website_id"/>
           </xpath>
         </field>
     </record>
