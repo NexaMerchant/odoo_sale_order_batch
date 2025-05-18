@@ -22,6 +22,28 @@
               <separator/>
               <filter string="按店铺分组" name="group_by_website" context="{'group_by':'website_id'}"/>
               <field name="website_id"/>
+              <group expand="0" string="按收货国家分组" name="group_by_country">
+                <filter string="所有国家" name="country_all" domain="[('shipping_status', '!=', False)]" context="{'search_default_country_all': 1}"/>
+                <filter string="美国" name="country_us" domain="[ ('partner_shipping_id.country_id.code', '=', 'US')]" context="{'search_default_country_us': 1}"/>
+                <filter string="加拿大" name="country_ca" domain="[ ('partner_shipping_id.country_id.code', '=', 'CA')]" context="{'search_default_country_ca': 1}"/>
+                <filter string="英国" name="country_uk" domain="[ ('partner_shipping_id.country_id.code', '=', 'GB')]" context="{'search_default_country_uk': 1}"/>
+                <filter string="澳大利亚" name="country_au" domain="[ ('partner_shipping_id.country_id.code', '=', 'AU')]" context="{'search_default_country_au': 1}"/>
+                <filter string="德国" name="country_de" domain="[ ('partner_shipping_id.country_id.code', '=', 'DE')]" context="{'search_default_country_de': 1}"/>
+                <filter string="法国" name="country_fr" domain="[ ('partner_shipping_id.country_id.code', '=', 'FR')]" context="{'search_default_country_fr': 1}"/>
+                <filter string="意大利" name="country_it" domain="[ ('partner_shipping_id.country_id.code', '=', 'IT')]" context="{'search_default_country_it': 1}"/>
+                <filter string="西班牙" name="country_es" domain="[ ('partner_shipping_id.country_id.code', '=', 'ES')]" context="{'search_default_country_es': 1}"/>
+                <filter string="新西兰" name="country_nz" domain="[ ('partner_shipping_id.country_id.code', '=', 'NZ')]" context="{'search_default_country_nz': 1}"/>
+                <filter string="日本" name="country_jp" domain="[ ('partner_shipping_id.country_id.code', '=', 'JP')]" context="{'search_default_country_jp': 1}"/>
+                <filter string="奥地利" name="country_at" domain="[ ('partner_shipping_id.country_id.code', '=', 'AT')]" context="{'search_default_country_at': 1}"/>
+                <filter string="比利时" name="country_be" domain="[ ('partner_shipping_id.country_id.code', '=', 'BE')]" context="{'search_default_country_be': 1}"/>
+                <filter string="捷克" name="country_cz" domain="[ ('partner_shipping_id.country_id.code', '=', 'CZ')]" context="{'search_default_country_cz': 1}"/>
+                <filter string="匈牙利" name="country_hu" domain="[ ('partner_shipping_id.country_id.code', '=', 'HU')]" context="{'search_default_country_hu': 1}"/>
+                <filter string="爱尔兰" name="country_ie" domain="[ ('partner_shipping_id.country_id.code', '=', 'IE')]" context="{'search_default_country_ie': 1}"/>
+                <filter string="荷兰" name="country_nl" domain="[ ('partner_shipping_id.country_id.code', '=', 'NL')]" context="{'search_default_country_nl': 1}"/>
+                <filter string="挪威" name="country_no" domain="[ ('partner_shipping_id.country_id.code', '=', 'NO')]" context="{'search_default_country_no': 1}"/>
+                <filter string="瑞士" name="country_ch" domain="[ ('partner_shipping_id.country_id.code', '=', 'CH')]" context="{'search_default_country_ch': 1}"/>
+                <filter string="瑞典" name="country_se" domain="[ ('partner_shipping_id.country_id.code', '=', 'SE')]" context="{'search_default_country_se': 1}"/>
+              </group>
           </xpath>
         </field>
     </record>
