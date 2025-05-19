@@ -28,6 +28,7 @@
                 <filter string="加拿大" name="country_ca" domain="[ ('partner_shipping_id.country_id.code', '=', 'CA')]" context="{'search_default_country_ca': 1}"/>
                 <filter string="英国" name="country_uk" domain="[ ('partner_shipping_id.country_id.code', '=', 'GB')]" context="{'search_default_country_uk': 1}"/>
                 <filter string="澳大利亚" name="country_au" domain="[ ('partner_shipping_id.country_id.code', '=', 'AU')]" context="{'search_default_country_au': 1}"/>
+                <newline/>
                 <filter string="德国" name="country_de" domain="[ ('partner_shipping_id.country_id.code', '=', 'DE')]" context="{'search_default_country_de': 1}"/>
                 <filter string="法国" name="country_fr" domain="[ ('partner_shipping_id.country_id.code', '=', 'FR')]" context="{'search_default_country_fr': 1}"/>
                 <filter string="意大利" name="country_it" domain="[ ('partner_shipping_id.country_id.code', '=', 'IT')]" context="{'search_default_country_it': 1}"/>
@@ -43,6 +44,15 @@
                 <filter string="挪威" name="country_no" domain="[ ('partner_shipping_id.country_id.code', '=', 'NO')]" context="{'search_default_country_no': 1}"/>
                 <filter string="瑞士" name="country_ch" domain="[ ('partner_shipping_id.country_id.code', '=', 'CH')]" context="{'search_default_country_ch': 1}"/>
                 <filter string="瑞典" name="country_se" domain="[ ('partner_shipping_id.country_id.code', '=', 'SE')]" context="{'search_default_country_se': 1}"/>
+              </group>
+              <group expand="0" string="按网站分组" name="website_group">
+                <filter string="所有网站" name="website_all" domain="[('shipping_status', '!=', False)]" context="{'search_default_website_all': 1}"/>
+                <filter string="hatmeo.com" name="website_hatmeo_com" domain="[('website_id.name', '=', 'hatmeo.com')]" context="{'search_default_website_hatmeo_com': 1}"/>
+                <filter string="mqqhot.com" name="website_mqqhot_com" domain="[('website_id.name', '=', 'mqqhot.com')]" context="{'search_default_website_mqqhot_com': 1}"/>
+                <filter string="kundies.com" name="website_kundies_com" domain="[('website_id.name', '=', 'kundies.com')]" context="{'search_default_website_kundies_com': 1}"/>
+                <filter string="kundies.de" name="website_kundies_de" domain="[('website_id.name', '=', 'kundies.de')]" context="{'search_default_website_kundies_de': 1}"/>
+                <filter string="kundies.cz" name="website_kundies_cz" domain="[('website_id.name', '=', 'kundies.cz')]" context="{'search_default_website_kundies_cz': 1}"/>
+                <filter string="kundies.pl" name="website_kundies_pl" domain="[('website_id.name', '=', 'kundies.pl')]" context="{'search_default_website_kundies_pl': 1}"/>
               </group>
           </xpath>
         </field>
