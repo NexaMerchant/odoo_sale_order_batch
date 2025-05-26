@@ -44,14 +44,9 @@ Sale Order Batch
       #  'views/left_menu.xml',
     ],
     # only loaded in demonstration mode
-    # 'demo': [
-    #     'demo/demo.xml',
-    # ],
-    # "assets": {
-    #     'web.assets_backend': [
-    #         'sale_order_batch/static/src/js/list_disable_open.js',
-    #     ]
-    # },
+    'demo': [
+        'demo/demo.xml',
+    ],
     'installable': True,
     'application': True,
     'auto_install': False,

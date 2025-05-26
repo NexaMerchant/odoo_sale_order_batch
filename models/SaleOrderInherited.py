@@ -25,6 +25,9 @@ class SaleOrderInherited(models.Model):
 
     all_in_stock = fields.Boolean(string='全部有货', compute='_compute_all_in_stock', store=True)
 
+    # 原始仓库
+    original_warehouse_id = fields.Many2one('stock.warehouse', string='原始仓库')
+
     @api.depends('order_line.product_id', 'order_line.product_uom_qty')
     def _compute_all_in_stock(self):
         for order in self:

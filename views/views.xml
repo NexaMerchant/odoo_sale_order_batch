@@ -5,10 +5,6 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//tree" position="attributes">
-              <attribute name="edit">tree</attribute>
-              <attribute name="js_class">sale_order_batch.TreeNoOpen</attribute>
-            </xpath>
 
             <xpath expr="//field[@name='name']" position="after">
                 <field name="shipping_status" readonly="True"  options="{'no_open': True}" attrs="{'no_open': True}" />
