@@ -32,9 +32,11 @@ Sale Order Batch
         'views/sale_report_templates.xml',
         'views/sale_order_tree_page.xml',
         'views/batch_set_shipping_status_view.xml',
+        'views/wizard_views.xml',
 
         'wizards/batch_choose_delivery_carrier_views.xml',
         'wizards/batch_choose_delivery_carrier_access.xml',
+        
 
         
         'report/report_batch_picking.xml',

@@ -91,9 +91,12 @@
       <field name="state">code</field>
       <field name="code">
           action = {
-              "type": "ir.actions.act_url",
-              "url": '/report/pdf/sale_order_batch.report_batch_picking?ids=%s' % ','.join(map(str, env.context.get('active_ids', []))),
+              "type": "ir.actions.act_window",
+              "name": "确认批量打印面单",
+              "res_model": "batch.print.label.wizard",
+              "view_mode": "form",
               "target": "new",
+              "context": {"active_ids": env.context.get("active_ids", [])},
           }
       </field>
     </record>

@@ -11,6 +11,7 @@
   <template id="report_batch_picking">
     <t t-call="web.html_container">
       <meta charset="utf-8"/>
+      <link rel="stylesheet" type="text/css" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" />
       <t t-set="style">
         <![CDATA[
           <style>
@@ -34,12 +35,23 @@
               width: 100%;
               box-sizing: border-box;
             }
+            .table {
+              width: 100%;
+              table-layout: fixed;
+              border-top: 1px solid black; 
+              border-collapse: collapse;
+            }
             table.table-sm {
               width: 100%;
               table-layout: fixed;
             }
-            th.product, td.product { width: 25%; }
-            th.qty, td.qty { width: 15%; }
+             .table th, .table td {
+              border: 1px solid black;
+              padding: 5px; 
+             } 
+            th.image, td.image { width: 30%; }
+            th.product, td.product { width: 40%; }
+            th.qty, td.qty { width: 10%; }
             th.location, td.location { width: 20%; }
             th, td { word-break: break-all; }
           </style>
@@ -56,28 +68,17 @@
             <h3>快递公司 ：<span t-esc="picking.carrier_id.name"/></h3>
             <h3>备注 ：<span t-esc="order.note"/></h3>
             <table class="table">
-              <thead>
-                <tr>
-                  <th class="product" width="25%">名称</th>
-                  <th class="image" width="20%">图片</th>
-                  <th class="variant" width="20%">SKU</th>
-                  <th class="qty" width="15%" >数量</th>
-                  <th class="location" width="20%">位置</th>
-                </tr>
-              </thead>
               <tbody>
                 <tr t-foreach="picking.move_ids" t-as="move">
-                  <td class="product">
-                    <t t-esc="move.product_id.display_name"/>
-                  </td>
-                  <td class="image">
+                <td class="image">
                     <img t-att-src="request.httprequest.host_url + 'web/image/product.product/%s/image_128' % move.product_id.id" alt="Product Image" style="width: 80px; height: 80px;"/>
                   </td>
-                  <td class="variant">
-                    <t t-esc="move.product_id.default_code"/>
+                  <td class="product">
+                    <h3>
+                      <t t-esc="move.product_id.display_name"/>
+                    </h3>
                   </td>
                   <td class="qty"  t-esc="move.product_uom_qty"/>
-                  <td class="location" t-esc="move.location_id.display_name"/>
                 </tr>
               </tbody>
             </table>
