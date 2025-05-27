@@ -6,6 +6,9 @@
         <field name="inherit_id" ref="sale.view_sales_order_filter"/>
         <field name="arch" type="xml">
             <xpath expr="//search" position="inside">
+
+                <field name="picking_ids" string="跟踪码 (拣货单)" filter_domain="[('picking_ids.carrier_tracking_ref', 'ilike', self)]"/>
+
               <group expand="0" string="按发货状态分组" name="shipping_status_group">
                 <filter string="所有" name="shipping_status_all" domain="[('shipping_status', '!=', False)]" context="{'search_default_shipping_status_all': 1}"/>
                 <filter string="待处理" name="shipping_status_pending" domain="[('shipping_status', '=', 'pending')]" context="{'search_default_shipping_status_pending': 1}"/>
