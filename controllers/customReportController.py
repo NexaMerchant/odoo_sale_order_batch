@@ -38,17 +38,7 @@ class CustomReportController(http.Controller):
                 return request.not_found(e.name)
             except Exception as e:
                 return request.not_found("发生错误: %s" % str(e))
-            try:
-            # 1. 生成主报表PDF
-                pdf_content, _ = report_obj._render_qweb_pdf('sale_order_batch.action_report_batch_picking', [order_id])
-                print("pdf_content", pdf_content)
-                if not pdf_content:
-                    raise UserError("生成主报表PDF时发生错误")
-                reader_main = PdfReader(io.BytesIO(pdf_content))
-                for page in reader_main.pages:
-                    writer.add_page(page)
-            except Exception as e:
-                return request.not_found("生成主报表PDF时发生错误: %s" % str(e))
+            
 
             # 2. 获取外部PDF（可根据订单号动态生成URL）
             # 这里以订单号为快递单号举例，实际可根据你的业务调整
@@ -78,6 +68,21 @@ class CustomReportController(http.Controller):
                 reader_attach = PdfReader(io.BytesIO(external_pdf))
                 for page in reader_attach.pages:
                     writer.add_page(page)
+
+
+            
+            try:
+            # 1. 生成主报表PDF
+                pdf_content, _ = report_obj._render_qweb_pdf('sale_order_batch.action_report_batch_picking', [order_id])
+                print("pdf_content", pdf_content)
+                if not pdf_content:
+                    raise UserError("生成主报表PDF时发生错误")
+                reader_main = PdfReader(io.BytesIO(pdf_content))
+                for page in reader_main.pages:
+                    writer.add_page(page)
+            except Exception as e:
+                return request.not_found("生成主报表PDF时发生错误: %s" % str(e))
+
 
             # 配置 sale order 的打印时间
             sale_order.write({'print_time': fields.Datetime.now()})
